@@ -1,0 +1,115 @@
+// Playground - noun: a place where people can play
+
+import UIKit
+import XCPlayground
+
+
+class Shape: UIView {
+    var color:UIColor
+    
+    init(color:UIColor) {
+        self.color = color
+        super.init(frame: CGRectZero)
+        self.backgroundColor = color //background color from UIView class
+    }
+    
+    func getArea() -> Double {
+        return 0
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class Rectangle: Shape {
+    var width: Int
+    var length: Int
+    init(width: Int, length: Int, color: UIColor) {
+        self.width = width
+        self.length = length
+        super.init(color:color)
+        self.frame.size = CGSize(width: width, height: length)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func getArea() -> Double {
+        return(Double(width * length))
+    }
+}
+
+
+class RoundedRectangle: Rectangle {
+    var radius: Int
+    init(radius:Int, width: Int, length: Int, color: UIColor) {
+        self.radius = width/2
+        super.init(width: width, length: length, color:color)
+        self.layer.cornerRadius = CGFloat(radius)
+    }
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+class Square: Shape {
+    var width: Int
+    
+    init(width:Int, color: UIColor){
+        self.width = width
+        super.init(color: color)
+        self.frame.size = CGSize(width: width, height: width)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func getArea() -> Double {
+        return Double(width * width)
+    }
+}
+
+class Circle: Shape {
+    var radius: Int
+
+    init(radius:Int, color: UIColor){
+        self.radius = radius
+        super.init(color: color)
+        self.frame.size = CGSize(width: 2*radius, height: 2*radius)
+        self.layer.cornerRadius = CGFloat(radius)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func getArea() -> Double {
+        return Double(radius * radius) * M_PI
+    }
+}
+
+var circle = Circle(radius: 50, color: UIColor.blueColor())
+var square = Square(width: 100, color: UIColor.redColor())
+var rectangle = Rectangle(width: 80, length: 150, color: UIColor.purpleColor())
+var roundedRectangle = RoundedRectangle(radius: 20, width: 40, length: 60, color: UIColor.greenColor())
+
+
+circle.center = CGPoint(x: 100, y: 100)
+circle.getArea()
+square.center = CGPoint(x: 200, y: 200)
+square.getArea()
+rectangle.center = CGPoint(x: 50, y: 220)
+rectangle.getArea()
+roundedRectangle.center = CGPoint(x: 300, y: 300)
+roundedRectangle.getArea()
+
+let view = UIView(frame: CGRect(x: 0, y: 0, width: 500, height: 500))
+
+view.addSubview(circle)
+view.addSubview(square)
+view.addSubview(rectangle)
+view.addSubview(roundedRectangle)
+
+XCPShowView("Shapes!", view)
